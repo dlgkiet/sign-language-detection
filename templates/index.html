@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YOLOv11 Realtime Detection</title>
+    <style>
+      body {
+        text-align: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        margin-top: 20px;
+        font-size: 32px;
+        color: #00796b;
+        text-shadow: 1px 1px 1px #ccc;
+      }
+
+      #label-box {
+        margin: 20px auto;
+        font-size: 26px;
+        font-weight: 600;
+        color: #004d40;
+        padding: 10px 20px;
+        border: 2px dashed #00796b;
+        display: inline-block;
+        background-color: #e0f2f1;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      img {
+        border-radius: 12px;
+        border: 4px solid #009688;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+      }
+
+      @media (max-width: 768px) {
+        img {
+          width: 95%;
+          height: auto;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        #label-box {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>YOLOv11 Realtime Sign Detection</h1>
+    <img src="{{ url_for('video') }}" width="800" height="600" />
+    <div id="label-box">Đang nhận diện...</div>
+
+    <script>
+      async function fetchLabel() {
+        try {
+          const res = await fetch("/label");
+          const data = await res.json();
+          document.getElementById("label-box").innerText =
+            "Dự đoán: " + data.label;
+        } catch (e) {
+          console.error("Không lấy được nhãn:", e);
+        }
+      }
+
+      setInterval(fetchLabel, 300); // Cập nhật nhãn mỗi 300ms
+    </script>
+  </body>
+</html>
