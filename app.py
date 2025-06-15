@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import threading
 
 app = Flask(__name__)
-model = YOLO('D:/code/python/sign-language-detection/best.pt')
+model = YOLO('best.pt')
 
 latest_label = "Đang nhận diện..."
 
